@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sopt.tokddak.R
+import com.sopt.tokddak.common.toDecimalFormat
 
 class HistoryAdapter(private val context: Context) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>(){
 
@@ -32,9 +33,17 @@ class HistoryAdapter(private val context: Context) : RecyclerView.Adapter<Histor
         val txt_price : TextView = view.findViewById(R.id.txt_price)
 
         fun bind(historyItem: HistoryServerInItem){
-            txt_category.text = historyItem.category.toString()
+
+            when(historyItem.category.toString()){
+                "1" -> txt_category.text = "숙박"
+                "2" -> txt_category.text = "식사"
+                "3" -> txt_category.text = "간식/주류"
+                "4" -> txt_category.text = "교통"
+                "5" -> txt_category.text = "쇼핑"
+                "6" -> txt_category.text = "액티비티"
+            }
             txt_detail.text = historyItem.detail
-            txt_price.text = historyItem.price.toString()
+            txt_price.text = historyItem.price.toDecimalFormat()
         }
     }
 }

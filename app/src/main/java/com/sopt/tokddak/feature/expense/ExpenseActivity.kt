@@ -35,9 +35,8 @@ class ExpenseActivity : AppCompatActivity() {
 
         btn_checked.setOnClickListener {
             val cost = tv_extense_input.text.toString().toIntOrNull()
-            val detail = tv_detail_input.toString()
+            val detail = tv_detail_input.text.toString()
             Log.v("YGYG", "In2")
-
 
             if (cost == null) {
                 //TODO: 코스트 입력하라고 토스트 띄우고
@@ -49,17 +48,13 @@ class ExpenseActivity : AppCompatActivity() {
 
                 sendData(cost, typeInt, detail)
             }
+
+            finish()
         }
 
         btn_back_black.setOnClickListener {
             finish()
         }
-
-        btn_checked.setOnClickListener {
-            // 통신 함수
-            finish()
-        }
-
 
     }
 
@@ -75,29 +70,12 @@ class ExpenseActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@ExpenseActivity, "성공", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@ExpenseActivity, "성공", Toast.LENGTH_SHORT).show()
                 } else {
                     Log.v("YGYG", response.errorBody().toString())
-
                 }
             }
-
         })
-
-//        setExpense.setExpense().enqueue(object : Callback<ExpenseServerItem>{
-//            override fun onFailure(call: Call<ExpenseServerItem>, t: Throwable) {
-//                Log.e("서버 보내기 오류", "t = $t")
-//            }
-//
-//            override fun onResponse(
-//                call: Call<ExpenseServerItem>,
-//                response: Response<ExpenseServerItem>
-//            ) {
-//                if(response.isSuccessful){
-//                    val sendData = response.body()!!
-//                }
-//            }
-//        })
     }
 
     private fun checking() {
@@ -118,8 +96,7 @@ class ExpenseActivity : AppCompatActivity() {
 
     private fun setCheckButtonState() {
         btn_checked.isEnabled =
-            type.isNotEmpty() &&
-                    tv_extense_input.text.isNotEmpty()
+            type.isNotEmpty() && tv_extense_input.text.isNotEmpty()
 
         Log.v("YGYG", tv_extense_input.text.isNotEmpty().toString())
     }

@@ -1,7 +1,7 @@
 package com.sopt.tokddak.api
 
-import com.sopt.tokddak.feature.history.HistoryServerItem
 import com.sopt.tokddak.feature.expense.PostExpense
+import com.sopt.tokddak.feature.history.HistoryServerItem
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,4 +17,5 @@ interface Service {
         @Body body:PostExpense
     ) : Call<Unit>
 
+    //@POST("/trips/{CityId}")
 }

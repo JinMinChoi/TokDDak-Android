@@ -154,7 +154,6 @@ class BottomSheetDialog : BottomSheetDialogFragment(), View.OnClickListener {
                 }
                 Log.v("Bottm", contents)
                 (activity as DayActivity).getContents(contents)
-                //Toast.makeText(context, contents, Toast.LENGTH_SHORT).show()
             }
         }
 

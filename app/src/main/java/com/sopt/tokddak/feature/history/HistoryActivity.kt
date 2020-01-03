@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import androidx.recyclerview.widget.RecyclerView
 import com.sopt.tokddak.R
+import com.sopt.tokddak.common.toDecimalFormat
 import kotlinx.android.synthetic.main.activity_expense_history.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,29 +29,27 @@ class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expense_history)
-        init()
+
+        history_rv_outer = findViewById(R.id.history_rv_outer)
+        init(history_rv_outer)
 
         img_back.setOnClickListener {
             finish()
         }
     }
 
-    private fun init(){
+    private fun init(view : RecyclerView){
 
         txt_total_price = findViewById(R.id.txt_total_price)
-        var total = txt_total_price.text.toString().toInt()
-
 
         divider = DividerItemDecoration(this, 1)
         divider.setDrawable(resources.getDrawable(R.drawable.rv_divider))
 
-        history_rv_outer = findViewById(R.id.history_rv_outer)
-
         historyAdapter = HistoryAdapter(this)
 
-        history_rv_outer.adapter = historyAdapter
-        history_rv_outer.layoutManager = LinearLayoutManager(this, VERTICAL, false)
-        history_rv_outer.addItemDecoration(divider)
+        view.adapter = historyAdapter
+        view.layoutManager = LinearLayoutManager(this, VERTICAL, false)
+        view.addItemDecoration(divider)
 
         getHistory.getHistory(1).enqueue(object : Callback<HistoryServerItem>{
             override fun onFailure(call: Call<HistoryServerItem>, t: Throwable) {
@@ -67,6 +66,10 @@ class HistoryActivity : AppCompatActivity() {
 
                     historyAdapter.data = historyIn
                     historyAdapter.notifyDataSetChanged()
+                    var total = 0
+                    historyIn.forEach { total += it.price }
+                    txt_total_price.text = total.toDecimalFormat()
+
                 }
             }
         })
